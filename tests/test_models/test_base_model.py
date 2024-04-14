@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ """
-from models.base_model import BaseModel
 import unittest
+from models.base_model import BaseModel
 import datetime
 from uuid import UUID
 import json
@@ -97,3 +97,7 @@ class test_basemodel(unittest.TestCase):
         n = new.to_dict()
         new = BaseModel(**n)
         self.assertFalse(new.created_at == new.updated_at)
+
+    def do_create(self, arg):
+        """allow for object creation with given parameters"""
+        

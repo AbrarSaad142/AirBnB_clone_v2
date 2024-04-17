@@ -1,7 +1,6 @@
-destroy State 1c77c5dd-fc22-41d8-832e-1ede8da5acfb
-destroy State 3c995733-03c2-42de-97fc-8d4e3185a413
-destroy State 03d5b94f-a01f-42c7-9c3d-084308ff4a42
-destroy State d96a35ca-bce0-4fc7-9639-57c4e2a94d80
-destroy State ddb08c60-f7cc-4a3a-8c5c-a2c7716644eb
-destroy State 638297b8-069c-4b9c-ad34-0c0a5c1bce0b
+create State name="California"
+create State name="Arizona"
 all State
+
+create Place city_id="0001" user_id="0001" name="My_little_house" number_rooms=4 number_bathrooms=2 max_guest=10 price_by_night=300 latitude=37.773972 longitude=-122.431297
+all Place

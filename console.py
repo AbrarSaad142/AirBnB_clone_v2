@@ -16,20 +16,21 @@ from models.amenity import Amenity
 from models.review import Review
 
 classes = {
-        "BaseModel": BaseModel,
-        "User": User,
-        "Place": Place,
-        "State": State,
-        "City": City,
-        "Amenity": Amenity,
-        "Review": Review,
-    }
+    "BaseModel": BaseModel,
+    "User": User,
+    "Place": Place,
+    "State": State,
+    "City": City,
+    "Amenity": Amenity,
+    "Review": Review,
+}
+
+
 class HBNBCommand(cmd.Cmd):
     """Contains the functionality for the HBNB console"""
 
     # determines prompt for interactive/non-interactive modes
     prompt = "(hbnb) " if sys.__stdin__.isatty() else ""
-
 
     dot_cmds = ["all", "count", "show", "destroy", "update"]
     types = {
@@ -141,9 +142,9 @@ class HBNBCommand(cmd.Cmd):
         if class_attributes:
             for attr, v in class_attributes.items():
                 setattr(new_instance, attr, v)
+        storage.new(new_instance)
         storage.save()
         print(new_instance.id)
-        new_instance.save()
 
     def parseArguments(self, args):
         """convert a list of key value into a valid kwargs"""

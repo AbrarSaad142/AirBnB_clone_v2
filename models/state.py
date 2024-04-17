@@ -7,11 +7,14 @@ from models.city import City
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from os import getenv
-class State(BaseModel,Base):
+
+
+class State(BaseModel, Base):
     """ State class
     Attribute:
         name: input name
     """
+
     __tablename__ = "states"
     if getenv('HBNB_TYPE_STORAGE') == 'db':
 

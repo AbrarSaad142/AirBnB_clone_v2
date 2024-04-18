@@ -56,20 +56,3 @@ class Place(BaseModel, Base):
             if review.place_id == self.id:
                 review_list.append(review)
         return review_list
-
-    def amenities(self):
-        """getter attribute amenities that returns the list of Amenity"""
-        from models.amenity import Amenity
-
-        amenity_list = []
-        all_amenities = models.storage.all(Amenity)
-        for amenity in all_amenities.values():
-            if amenity.id in self.amenity_ids:
-                amenity_list.append(amenity)
-        return amenity_list
-
-    def amenities(self, obj):
-        """that handles append method for adding"""
-        if isinstance(obj, Amenity):
-            if self.id == obj.place_id:
-                self.amenity_ids.append(obj.id)

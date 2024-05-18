@@ -6,6 +6,7 @@ from models import storage
 import os
 
 
+loader = unittest.TestLoader()
 @unittest.skipIf(
     os.getenv('HBNB-TYPE-STORAGE') == 'db', 'FileStorage test'
 )

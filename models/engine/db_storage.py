@@ -15,6 +15,15 @@ from models.review import Review
 class DBStorage:
     """database class"""
 
+    all_classes = {
+        "BaseModel": BaseModel,
+        "User": User,
+        "State": State,
+        "City": City,
+        "Amenity": Amenity,
+        "Place": Place,
+        "Review": Review,
+    }
     __engine = None
     __session = None
 
@@ -35,20 +44,18 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """show all data"""
-        if cls:
-            objs = self.__session.query(cls).all()
+        """Query all objects for curent session based on class name"""
+        obj_dict = {}
+        cls = self.all_classes[cls]
+        if cls is not None:
+            objects = self.__session.query(cls).all()
         else:
-            classes = [User, State, City, Amenity, Place, Review]
-            objs = []
-            for _class in classes:
-                objs += self.__session.query(_class)
-        new_dict = {}
-        for obj in objs:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            new_dict[key] = obj
-
-        return new_dict
+            objects = self.__session.query(State, City, User, Amenity, Place, Review)
+        for obj in objects:
+            key = obj.__class__.__name__ + "." + obj.id
+            value = obj
+            obj_dict[key] = value
+        return obj_dict
 
     def new(self, obj):
         """Add object in db"""

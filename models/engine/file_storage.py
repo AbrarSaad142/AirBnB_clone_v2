@@ -9,19 +9,29 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """Returns a dictionary of models currently in storage"""
-        if not cls:
-            return FileStorage.__objects
-        class_name = cls.__name__
-        objs = {}
-        for k, v in FileStorage.__objects.items():
-            if class_name in k:
-                objs[k] = v
-        return objs
+        """ Returns a dictionary of models currently in storage, or all of
+        one type.
+
+        Args:
+            cls (BaseModel-derived): class of object to list
+
+        Returns:
+            all_of_class (dict): dictionary of all objects in file storage
+                of class `cls`.
+        """
+        if cls is None:
+            return self.__objects
+        else:
+            all_of_class = {}
+            for key, value in self.__objects.items():
+                if type(value) == cls:
+                    all_of_class[key] = value
+            return all_of_class
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
-        self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
+        # self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
+        self.__objects[obj.__class__.__name__ + '.' + obj.id] = obj
 
     def save(self):
         """Saves storage dictionary to file"""
@@ -52,21 +62,24 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                    self.all()[key] = classes[val['__class__']](**val)
+                        self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
 
     def delete(self, obj=None):
-        """delete obj from __objects"""
-        if not obj:
-            return
-
-        for k, v in FileStorage .__objects.items():
-            if v == obj:
-                del FileStorage.__objects[k]
-                return
-    
+        """delete an object if it exists"""
+        try:
+            if obj:
+                key = "{}.{}".format(type(obj).__name__, obj.id)
+                del self.__objects[key]
+        except:
+            pass
 
     def close(self):
-        """method for deserializing the JSON file to objects"""
+        """ File storage equivalent to `DBStorage.close()`, resets current
+        `storage` by reloading JSON file.
+
+        Project: 0x04. AirBnB clone - Web framework
+        Task: 7. Improve engines
+        """
         self.reload()

@@ -17,7 +17,7 @@ def tearsown(exception):
 def states_list():
     """display page"""
     states = storage.all(State)
-    return render_template('7-states_list.html', states=states)
+    return render_template('7-states_list.html', states=storage.all(State))
 
 
 if __name__ == "__main__":
